@@ -5,7 +5,7 @@ info() {
 }
 
 # Ustalamy wersję Node.js (dla demonstracji)
-NODE_VERSION="12"
+NODE_VERSION="14"
 
 info "KONFIGURACJA" "Używam Node.js w wersji $NODE_VERSION"
 
