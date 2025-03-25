@@ -17,7 +17,7 @@ info "NGINX" "Uruchamiam kontener Nginx"
 CONTAINER_ID=$(docker run -d --name $NGINX_CONTAINER -p 80:80 --volume $VOLUME:/usr/share/nginx/html nginx)
 
 info "MODYFIKACJA" "Wprowadzam własną zawartość do pliku index.html przu użyciu tymczasowego kontenera"
-docker run --rm -it -v $VOLUME:/mnt alpine sh -c "echo '<!DOCTYPE html>
+docker run --rm -v $VOLUME:/mnt alpine sh -c "echo '<!DOCTYPE html>
 <html>
   <head>
     <title>Welcome to nginx!</title>
