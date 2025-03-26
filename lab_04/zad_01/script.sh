@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NGINX_CONTAINER="my-nginx-container"
+NGINX_CONTAINER="my_nginx_container"
 VOLUME="nginx_data"
 
 info() {
