@@ -32,7 +32,7 @@ decrypt() {
   echo "Wypakowywanie odszyfrowanego archiwum do woluminu..."
   docker run --rm -v "$VOLUME_NAME":/volume -v "$(pwd)":/backup alpine sh -c \
     "tar xvf /backup/$TEMP_TAR -C /volume"
-  rm "$TEMP_TAR"
+  rm $ENCRYPTED_ARCHIVE $TEMP_TAR
 }
 
 if [[ "$ACTION" == "e" ]];
