@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Node Frontend</title>
+  </head>
+  <body>
+    <h1>Message from backend:</h1>
+    <p id="message">Loading...</p>
+
+    <script>
+      fetch("/api/")
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("message").textContent = data.message;
+        })
+        .catch((err) => {
+          document.getElementById("message").textContent =
+            "Error loading message.";
+          console.error(err);
+        });
+    </script>
+  </body>
+</html>
