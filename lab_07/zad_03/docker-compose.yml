@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mongo:$MONGO_VERSION
+    container_name: db
+    ports:
+      - "${MONGO_PORT}:27017"
+    networks:
+      - net_A
+    volumes:
+      - mongo_data:/data/db
+  server:
+    image: szybkisum/server
+    container_name: server
+    ports:
+      - "3003:3000"
+    networks:
+      - net_A
+
+networks:
+  net_A:
+    external: false
+    name: net_A
+
+volumes:
+  mongo_data:
+    name: mongo_data
