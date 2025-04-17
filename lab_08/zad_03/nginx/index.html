@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redis/Postgres Demo</title>
+  </head>
+  <body>
+    <h1>Database Flow Demo</h1>
+
+    <input id="dataKey" placeholder="Key" />
+    <input id="dataValue" placeholder="Value" />
+    <button onclick="uploadToRedis()">Upload to Redis</button>
+
+    <pre id="output"></pre>
+
+    <script>
+      const apiBase = "/api/";
+
+      async function uploadToRedis() {
+        const key = document.getElementById("dataKey").value;
+        const value = document.getElementById("dataValue").value;
+
+        const payload = { key, value };
+
+        const out = document.getElementById("output");
+        out.textContent = "Uploading...";
+
+        try {
+          await fetch(`${apiBase}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          out.textContent = "Uploaded to Redis.\n\nReading from Redis...";
+
+          const redisRes = await fetch(`${apiBase}/${key}`);
+          const redisData = await redisRes.json();
+
+          out.textContent += `\nRedis data: ${JSON.stringify(
+            redisData,
+            null,
+            2
+          )}`;
+
+          const pgRes = await fetch(`${apiBase}/postgres/${key}`);
+          const pgData = await pgRes.json();
+
+          out.textContent += `\nPostgres data: ${JSON.stringify(
+            pgData,
+            null,
+            2
+          )}`;
+        } catch (err) {
+          out.textContent = `❌ Error: ${err.message}`;
+          console.error(err);
+        }
+      }
+    </script>
+  </body>
+</html>

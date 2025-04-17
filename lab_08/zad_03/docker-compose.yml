@@ -1,0 +1,54 @@
+services:
+  redis:
+    image: redis
+    container_name: redis_app
+    networks:
+      - redis_net
+
+  postgres:
+    image: postgres
+    container_name: postgres_app
+    networks:
+      - postgres_net
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+
+  express:
+    build: ./express
+    image: express_image
+    container_name: express_app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - redis_net
+      - postgres_net
+      - frontend_net
+
+  nginx:
+    build: ./nginx
+    image: nginx_image
+    container_name: nginx_app
+    ports:
+      - "80:80"
+    depends_on:
+      - express
+    networks:
+      - frontend_net
+
+networks:
+  redis_net:
+    external: false
+    name: redis_net
+
+  postgres_net:
+    external: false
+    name: postgres_net
+
+  frontend_net:
+    external: false
+    name: frontend_net
